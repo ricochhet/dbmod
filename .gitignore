@@ -8,3 +8,6 @@ target
 .releases
 *.syso
 *.log
+assets/*
+!assets/.gitkeep
+!assets/allScans.json
