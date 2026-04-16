@@ -49,8 +49,6 @@ func ApplyU42AbilityPaths(warframesU41, warframesU42, inventory []byte, index in
 		}
 
 		newAbilityName := jsonx.ReplaceMap(currentAbilityName, replacements)
-		logx.Infof("%s -> %s\n", currentAbilityName, newAbilityName)
-
 		if newAbilityName == currentAbilityName {
 			logx.Infof("Skipping ability: %s (already updated)\n", currentAbilityName)
 			continue
@@ -66,7 +64,7 @@ func ApplyU42AbilityPaths(warframesU41, warframesU42, inventory []byte, index in
 
 	logx.Infof("Updated: %d\n", changed)
 
-	return []byte(newInventory), nil
+	return jsonx.SetBytesFromArray(inventory, []byte(newInventory), index)
 }
 
 func MigrateAbilityPaths(u41, u42 map[string][]string) map[string]string {

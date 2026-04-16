@@ -130,7 +130,7 @@ func (c *Context) writeBackup(name string, data []byte) error {
 
 	dest := filepath.Join(
 		c.Flags.DBData,
-		fmt.Sprintf("%s-%s", name, timex.TimeStamp()),
+		fmt.Sprintf("%s-%s.json", name, timex.TimeStamp()),
 	)
 
 	if err := fsx.Write(dest, data); err != nil {

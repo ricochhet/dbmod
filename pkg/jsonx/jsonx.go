@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/ricochhet/dbmod/pkg/errorx"
@@ -85,6 +86,10 @@ func ResultFromArray(data []byte, index int) (gjson.Result, error) {
 	}
 
 	return array[index], nil
+}
+
+func SetBytesFromArray(data, elem []byte, index int) ([]byte, error) {
+	return sjson.SetRawBytes(data, strconv.Itoa(index), elem)
 }
 
 // SetSliceInRawBytes sets a slice to the input json bytes at the specified index.

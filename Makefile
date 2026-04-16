@@ -80,5 +80,5 @@ $(APP_NAME)-darwin-arm64: fmt
 	$(call GO_BUILD_APP,darwin,arm64,$(APP_NAME)-darwin-arm64,$(APP_PATH))
 
 .PHONY: $(APP_NAME)-windows
-$(APP_NAME)-windows: fmt build-assets
+$(APP_NAME)-windows: fmt
 	$(call GO_BUILD_APP,windows,amd64,$(APP_NAME).exe,$(APP_PATH))
