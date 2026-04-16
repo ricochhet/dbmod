@@ -28,6 +28,10 @@ var (
 			Usage: "dbmod [MODE] inventory shipDecorations",
 			Desc:  "Unlock all ship decorations (cheat, patch)",
 		},
+		{
+			Usage: "dbmod [MODE] inventory abilityPaths",
+			Desc:  "Patch ability paths (U41 -> U42) (patch)",
+		},
 		{Usage: "dbmod [MODE] inventory weaponSkins", Desc: "Unlock all weapon skins (cheat)"},
 		{Usage: "dbmod [MODE] inventory xpInfo", Desc: "Patch XP info (patch)"},
 		{Usage: "dbmod [MODE] stats codexScans", Desc: "Unlock all codex scans (cheat)"},
