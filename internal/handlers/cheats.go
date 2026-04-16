@@ -44,7 +44,7 @@ func (c *Context) accoladesCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) challengesCheat(db *Database) (*Database, error) {
-	achievements := c.Exports.Achievements
+	achievements := c.WFData.Exports.Achievements
 	if len(achievements) == 0 {
 		return nil, errorx.WithFramef("Achievements data is %d bytes", len(achievements))
 	}
@@ -58,12 +58,12 @@ func (c *Context) challengesCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) capturaScenesCheat(db *Database) (*Database, error) {
-	resources := c.Exports.Resources
+	resources := c.WFData.Exports.Resources
 	if len(resources) == 0 {
 		return nil, errorx.WithFramef("Resources data is %d bytes", len(resources))
 	}
 
-	virtuals := c.Exports.Virtuals
+	virtuals := c.WFData.Exports.Virtuals
 	if len(virtuals) == 0 {
 		return nil, errorx.WithFramef("Virtuals data is %d bytes", len(virtuals))
 	}
@@ -77,7 +77,7 @@ func (c *Context) capturaScenesCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) flavourItemsCheat(db *Database) (*Database, error) {
-	flavor := c.Exports.Flavor
+	flavor := c.WFData.Exports.Flavor
 	if len(flavor) == 0 {
 		return nil, errorx.WithFramef("Flavor data is %d bytes", len(flavor))
 	}
@@ -91,7 +91,7 @@ func (c *Context) flavourItemsCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) missionsCheat(db *Database) (*Database, error) {
-	regions := c.Exports.Regions
+	regions := c.WFData.Exports.Regions
 	if len(regions) == 0 {
 		return nil, errorx.WithFramef("Regions data is %d bytes", len(regions))
 	}
@@ -107,7 +107,7 @@ func (c *Context) missionsCheat(db *Database) (*Database, error) {
 func (c *Context) shipDecorationsCheat(db *Database) (*Database, error) {
 	opts := cheats.ShipDecorations{MaxCount: 999}
 
-	resources := c.Exports.Resources
+	resources := c.WFData.Exports.Resources
 	if len(resources) == 0 {
 		return nil, errorx.WithFramef("Resources data is %d bytes", len(resources))
 	}
@@ -121,7 +121,7 @@ func (c *Context) shipDecorationsCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) weaponSkinsCheat(db *Database) (*Database, error) {
-	customs := c.Exports.Customs
+	customs := c.WFData.Exports.Customs
 	if len(customs) == 0 {
 		return nil, errorx.WithFramef("Customs data is %d bytes", len(customs))
 	}
@@ -137,7 +137,7 @@ func (c *Context) weaponSkinsCheat(db *Database) (*Database, error) {
 func (c *Context) enemyStatsCheat(db *Database) (*Database, error) {
 	opts := cheats.EnemyStats{Kills: 25, Assists: 5, Headshots: 10}
 
-	enemies := c.Exports.Enemies
+	enemies := c.WFData.Exports.Enemies
 	if len(enemies) == 0 {
 		return nil, errorx.WithFramef("Enemies data is %d bytes", len(enemies))
 	}
@@ -153,17 +153,17 @@ func (c *Context) enemyStatsCheat(db *Database) (*Database, error) {
 func (c *Context) codexScansCheat(db *Database) (*Database, error) {
 	opts := cheats.CodexScans{MaxScans: 99}
 
-	allScans := c.Exports.AllScans
+	allScans := c.WFData.Custom.AllScans
 	if len(allScans) == 0 {
 		return nil, errorx.WithFramef("AllScans data is %d bytes", len(allScans))
 	}
 
-	codex := c.Exports.Codex
+	codex := c.WFData.Exports.Codex
 	if len(codex) == 0 {
 		return nil, errorx.WithFramef("Codex data is %d bytes", len(codex))
 	}
 
-	enemies := c.Exports.Enemies
+	enemies := c.WFData.Exports.Enemies
 	if len(enemies) == 0 {
 		return nil, errorx.WithFramef("Enemies data is %d bytes", len(enemies))
 	}

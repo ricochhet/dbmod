@@ -10,7 +10,5 @@ target
 *.log
 assets/*
 !assets/.gitkeep
-!assets/allScans.json
-!assets/ExportWarframes_41.1.0.json
-!assets/ExportWarframes_42.0.6.json
+!assets/custom
 warframe-public-export-plus*

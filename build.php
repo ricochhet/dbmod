@@ -1,8 +1,7 @@
 <?php
 
-$sourceDir =
-	__DIR__ . DIRECTORY_SEPARATOR . "warframe-public-export-plus-senpai";
-$destBase = __DIR__ . DIRECTORY_SEPARATOR . "assets";
+$sourceDir = __DIR__ . "/warframe-public-export-plus";
+$destBase = __DIR__ . "/assets/exports";
 
 $sourceDir = realpath($sourceDir);
 $iterator = new RecursiveIteratorIterator(

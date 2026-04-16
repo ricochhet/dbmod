@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/ricochhet/dbmod/internal/config"
 	"github.com/ricochhet/dbmod/internal/handlers"
 	"github.com/ricochhet/dbmod/pkg/cmdx"
 	"github.com/ricochhet/dbmod/pkg/errorx"
@@ -47,8 +48,11 @@ func main() {
 
 	appCtx := Context{
 		&handlers.Context{
-			Flags:   flags,
-			Exports: readExports(flags.WFData),
+			Flags: flags,
+			WFData: &config.WFData{
+				Exports: *readExports(flags.WFExportData),
+				Custom:  *readCustom(flags.WFCustomData),
+			},
 		},
 	}
 

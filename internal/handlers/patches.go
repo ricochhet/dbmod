@@ -14,17 +14,17 @@ func (c *Context) inventoryPatches() Queries {
 }
 
 func (c *Context) xpInfoPatch(db *Database) (*Database, error) {
-	weapons := c.Exports.Weapons
+	weapons := c.WFData.Exports.Weapons
 	if len(weapons) == 0 {
 		return nil, errorx.WithFramef("Weapons data is %d bytes", len(weapons))
 	}
 
-	warframes := c.Exports.Warframes
+	warframes := c.WFData.Exports.Warframes
 	if len(warframes) == 0 {
 		return nil, errorx.WithFramef("Warframes data is %d bytes", len(warframes))
 	}
 
-	sentinels := c.Exports.Sentinels
+	sentinels := c.WFData.Exports.Sentinels
 	if len(sentinels) == 0 {
 		return nil, errorx.WithFramef("Sentinels data is %d bytes", len(sentinels))
 	}
@@ -38,7 +38,7 @@ func (c *Context) xpInfoPatch(db *Database) (*Database, error) {
 }
 
 func (c *Context) shipDecorationsPatch(db *Database) (*Database, error) {
-	resources := c.Exports.Resources
+	resources := c.WFData.Exports.Resources
 	if len(resources) == 0 {
 		return nil, errorx.WithFramef("Resources data is %d bytes", len(resources))
 	}
@@ -52,12 +52,12 @@ func (c *Context) shipDecorationsPatch(db *Database) (*Database, error) {
 }
 
 func (c *Context) abilityPathsPatch(db *Database) (*Database, error) {
-	warframesU41 := c.Exports.WarframesU41
+	warframesU41 := c.WFData.Custom.WarframesU41
 	if len(warframesU41) == 0 {
 		return nil, errorx.WithFramef("WarframesU41 data is %d bytes", len(warframesU41))
 	}
 
-	warframesU42 := c.Exports.WarframesU42
+	warframesU42 := c.WFData.Custom.WarframesU42
 	if len(warframesU42) == 0 {
 		return nil, errorx.WithFramef("WarframesU42 data is %d bytes", len(warframesU42))
 	}

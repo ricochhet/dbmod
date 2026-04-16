@@ -26,7 +26,7 @@ type Database struct {
 type Context struct {
 	Flags     *config.Config
 	Connector *mongox.Client
-	Exports   *config.Exports
+	WFData    *config.WFData
 }
 
 func (c *Context) InventoryCheats(ctx context.Context, names []string) error {

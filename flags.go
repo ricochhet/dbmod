@@ -38,7 +38,18 @@ func registerFlags(fs *flag.FlagSet, f *config.Config) {
 	fs.StringVar(&f.MongoURI, "uri", "mongodb://localhost:27017", "MongoDB URI")
 	fs.StringVar(&f.Database, "db-name", "openWF", "MongoDB database name")
 	fs.StringVar(&f.DBData, "db-data", "dbdata", "backup and dry-run output directory")
-	fs.StringVar(&f.WFData, "wf-data", "assets", "Warframe public export directory")
+	fs.StringVar(
+		&f.WFExportData,
+		"wf-export-data",
+		"assets/exports",
+		"Warframe public export directory",
+	)
+	fs.StringVar(
+		&f.WFCustomData,
+		"wf-custom-data",
+		"assets/custom",
+		"Warframe custom data directory",
+	)
 	fs.IntVar(&f.Index, "i", 0, "index of the document to modify")
 	fs.StringVar(&f.Mode, "m", "cheat", "edit mode: c|cheat or p|patch")
 	fs.BoolVar(&f.Debug, "debug", false, "enable debug output")

@@ -9,23 +9,26 @@ import (
 )
 
 func readExports(path string) *config.Exports {
-	join := func(name string) string { return filepath.Join(path, name) }
-
 	return &config.Exports{
-		Achievements: maybeRead(join("ExportAchievements.json")),
-		Codex:        maybeRead(join("ExportCodex.json")),
-		Customs:      maybeRead(join("ExportCustoms.json")),
-		Enemies:      maybeRead(join("ExportEnemies.json")),
-		Flavor:       maybeRead(join("ExportFlavour.json")),
-		Regions:      maybeRead(join("ExportRegions.json")),
-		Resources:    maybeRead(join("ExportResources.json")),
-		Virtuals:     maybeRead(join("ExportVirtuals.json")),
-		Weapons:      maybeRead(join("ExportWeapons.json")),
-		Warframes:    maybeRead(join("ExportWarframes.json")),
-		WarframesU41: maybeRead(join("ExportWarframes_41.1.0.json")),
-		WarframesU42: maybeRead(join("ExportWarframes_42.0.6.json")),
-		Sentinels:    maybeRead(join("ExportSentinels.json")),
-		AllScans:     maybeRead(join("allScans.json")),
+		Achievements: maybeRead(filepath.Join(path, "ExportAchievements.json")),
+		Codex:        maybeRead(filepath.Join(path, "ExportCodex.json")),
+		Customs:      maybeRead(filepath.Join(path, "ExportCustoms.json")),
+		Enemies:      maybeRead(filepath.Join(path, "ExportEnemies.json")),
+		Flavor:       maybeRead(filepath.Join(path, "ExportFlavour.json")),
+		Regions:      maybeRead(filepath.Join(path, "ExportRegions.json")),
+		Resources:    maybeRead(filepath.Join(path, "ExportResources.json")),
+		Virtuals:     maybeRead(filepath.Join(path, "ExportVirtuals.json")),
+		Weapons:      maybeRead(filepath.Join(path, "ExportWeapons.json")),
+		Warframes:    maybeRead(filepath.Join(path, "ExportWarframes.json")),
+		Sentinels:    maybeRead(filepath.Join(path, "ExportSentinels.json")),
+	}
+}
+
+func readCustom(path string) *config.Custom {
+	return &config.Custom{
+		WarframesU41: maybeRead(filepath.Join(path, "ExportWarframes_41.1.0.json")),
+		WarframesU42: maybeRead(filepath.Join(path, "ExportWarframes_42.0.6.json")),
+		AllScans:     maybeRead(filepath.Join(path, "allScans.json")),
 	}
 }
 
