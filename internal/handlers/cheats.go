@@ -25,7 +25,7 @@ func (c *Context) statsCheats() Queries {
 }
 
 func (c *Context) accoladesCheat(db *Database) (*Database, error) {
-	opts := cheats.Accolades{
+	accolades := cheats.Accolades{
 		Staff:     true,
 		Founder:   4,
 		Guide:     2,
@@ -35,7 +35,7 @@ func (c *Context) accoladesCheat(db *Database) (*Database, error) {
 		Counselor: true,
 	}
 
-	inv, err := opts.Apply(db.Inventory, c.Flags.Index)
+	inv, err := accolades.Apply(db.Inventory, c.Flags.Index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
@@ -105,14 +105,14 @@ func (c *Context) missionsCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) shipDecorationsCheat(db *Database) (*Database, error) {
-	opts := cheats.ShipDecorations{MaxCount: 999}
+	shipDecorations := cheats.ShipDecorations{MaxCount: 999}
 
 	resources := c.WFData.Exports.Resources
 	if len(resources) == 0 {
 		return nil, errorx.WithFramef("Resources data is %d bytes", len(resources))
 	}
 
-	inv, err := opts.Apply(resources, db.Inventory, c.Flags.Index)
+	inv, err := shipDecorations.Apply(resources, db.Inventory, c.Flags.Index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
@@ -135,14 +135,14 @@ func (c *Context) weaponSkinsCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) enemyStatsCheat(db *Database) (*Database, error) {
-	opts := cheats.EnemyStats{Kills: 25, Assists: 5, Headshots: 10}
+	enemyStats := cheats.EnemyStats{Kills: 25, Assists: 5, Headshots: 10}
 
 	enemies := c.WFData.Exports.Enemies
 	if len(enemies) == 0 {
 		return nil, errorx.WithFramef("Enemies data is %d bytes", len(enemies))
 	}
 
-	stats, err := opts.Apply(enemies, db.Stats, c.Flags.Index)
+	stats, err := enemyStats.Apply(enemies, db.Stats, c.Flags.Index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
@@ -151,7 +151,7 @@ func (c *Context) enemyStatsCheat(db *Database) (*Database, error) {
 }
 
 func (c *Context) codexScansCheat(db *Database) (*Database, error) {
-	opts := cheats.CodexScans{MaxScans: 99}
+	codexScans := cheats.CodexScans{MaxScans: 99}
 
 	allScans := c.WFData.Custom.AllScans
 	if len(allScans) == 0 {
@@ -168,7 +168,7 @@ func (c *Context) codexScansCheat(db *Database) (*Database, error) {
 		return nil, errorx.WithFramef("Enemies data is %d bytes", len(enemies))
 	}
 
-	stats, err := opts.Apply(allScans, codex, enemies, db.Stats, c.Flags.Index)
+	stats, err := codexScans.Apply(allScans, codex, enemies, db.Stats, c.Flags.Index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
