@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -57,9 +56,8 @@ func MarshalAndWrite[T any](path string, data T) ([]byte, error) {
 	return b, fsx.Write(path, b)
 }
 
-// ResultAsArray gets a json result as a slice of gjson.Result.
-func ResultAsArray(data []byte, name string, index int) ([]gjson.Result, error) {
-	t, err := Result(data, name, index)
+func ArrayElementFieldValues(json []byte, path string, index int) ([]gjson.Result, error) {
+	t, err := ArrayElementField(json, path, index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
@@ -67,20 +65,17 @@ func ResultAsArray(data []byte, name string, index int) ([]gjson.Result, error) 
 	return t.Array(), nil
 }
 
-// Result gets a result slice at the specified index.
-func Result(data []byte, path string, index int) (gjson.Result, error) {
-	array := gjson.ParseBytes(data).Array()
+func ArrayElementField(json []byte, path string, index int) (gjson.Result, error) {
+	array := gjson.ParseBytes(json).Array()
 	if index < 0 || index >= len(array) {
 		return gjson.Result{}, errorx.WithFramef("invalid index: %d", index)
 	}
 
-	target := array[index]
-
-	return target.Get(path), nil
+	return array[index].Get(path), nil
 }
 
-func ResultFromArray(data []byte, index int) (gjson.Result, error) {
-	array := gjson.ParseBytes(data).Array()
+func ArrayElement(json []byte, index int) (gjson.Result, error) {
+	array := gjson.ParseBytes(json).Array()
 	if index < 0 || index >= len(array) {
 		return gjson.Result{}, errorx.WithFramef("invalid index: %d", index)
 	}
@@ -88,70 +83,46 @@ func ResultFromArray(data []byte, index int) (gjson.Result, error) {
 	return array[index], nil
 }
 
-func SetBytesFromArray(data, elem []byte, index int) ([]byte, error) {
+func SetArrayElementRaw(data, elem []byte, index int) ([]byte, error) {
 	return sjson.SetRawBytes(data, strconv.Itoa(index), elem)
 }
 
-// SetSliceInRawBytes sets a slice to the input json bytes at the specified index.
-func SetSliceInRawBytes(input []byte, path string, elems []string, index int) ([]byte, error) {
+func SetArrayElementFieldArray(
+	json []byte,
+	path string,
+	value []string,
+	index int,
+) ([]byte, error) {
 	return sjson.SetRawBytes(
-		input,
+		json,
 		fmt.Sprintf("%d.%s", index, path),
-		[]byte("["+strings.Join(elems, ",")+"]"),
+		[]byte("["+strings.Join(value, ",")+"]"),
 	)
 }
 
-// SetFieldInRawBytes sets a field to the input json bytes at the specified index.
-func SetFieldInRawBytes(input []byte, path, elem string, index int) ([]byte, error) {
-	return sjson.SetRawBytes(input, fmt.Sprintf("%d.%s", index, path), []byte(elem))
+func SetArrayElementFieldRaw(json []byte, path, value string, index int) ([]byte, error) {
+	return sjson.SetRawBytes(json, fmt.Sprintf("%d.%s", index, path), []byte(value))
 }
 
-// SetFieldInRawBytes sets a field to the input json string at the specified index.
-func SetFieldInBytes[T any](input, path string, elem T, index int) (string, error) {
-	return sjson.Set(input, fmt.Sprintf("%d.%s", index, path), elem)
+func SetArrayElementField[T any](json, path string, value T, index int) (string, error) {
+	return sjson.Set(json, fmt.Sprintf("%d.%s", index, path), value)
 }
 
-func Replace(value string, rules []struct{ From, To string }) string {
-	for _, r := range rules {
-		if strings.Contains(value, r.From) {
-			return strings.ReplaceAll(value, r.From, r.To)
+func Join(path ...string) string {
+	if len(path) == 0 {
+		return ""
+	}
+
+	var s strings.Builder
+	s.WriteString(path[0])
+
+	for _, p := range path[1:] {
+		if p == "" {
+			continue
 		}
+
+		s.WriteString("." + p)
 	}
 
-	return value
-}
-
-func ReplaceMap(value string, rules map[string]string) string {
-	for from, to := range rules {
-		if strings.Contains(value, from) {
-			return strings.ReplaceAll(value, from, to)
-		}
-	}
-
-	return value
-}
-
-func ReplaceMapDeterministic(value string, rules map[string]string) string {
-	keys := make([]string, 0, len(rules))
-	for k := range rules {
-		keys = append(keys, k)
-	}
-
-	sort.Strings(keys)
-
-	for _, from := range keys {
-		if strings.Contains(value, from) {
-			return strings.ReplaceAll(value, from, rules[from])
-		}
-	}
-
-	return value
-}
-
-func joinPath(parent, child string) string {
-	if parent == "" {
-		return child
-	}
-
-	return parent + "." + child
+	return s.String()
 }

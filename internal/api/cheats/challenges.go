@@ -9,7 +9,7 @@ import (
 )
 
 func ApplyChallenges(achievements, inventory []byte, index int) ([]byte, error) {
-	challengeProgress, err := jsonx.ResultAsArray(inventory, "ChallengeProgress", index)
+	challengeProgress, err := jsonx.ArrayElementFieldValues(inventory, "ChallengeProgress", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -41,7 +41,12 @@ func ApplyChallenges(achievements, inventory []byte, index int) ([]byte, error) 
 		combined = append(combined, challenge)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "ChallengeProgress", combined, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(
+		inventory,
+		"ChallengeProgress",
+		combined,
+		index,
+	)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

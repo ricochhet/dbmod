@@ -9,7 +9,7 @@ import (
 )
 
 func ApplyShipDecorations(resources, inventory []byte, index int) ([]byte, error) {
-	decorations, err := jsonx.ResultAsArray(inventory, "ShipDecorations", index)
+	decorations, err := jsonx.ArrayElementFieldValues(inventory, "ShipDecorations", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -57,7 +57,12 @@ func ApplyShipDecorations(resources, inventory []byte, index int) ([]byte, error
 		result = append(result, item)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "ShipDecorations", result, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(
+		inventory,
+		"ShipDecorations",
+		result,
+		index,
+	)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

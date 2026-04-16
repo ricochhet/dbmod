@@ -10,7 +10,7 @@ import (
 )
 
 func ApplyCapturaScenes(resources, virtuals, inventory []byte, index int) ([]byte, error) {
-	miscItems, err := jsonx.ResultAsArray(inventory, "MiscItems", index)
+	miscItems, err := jsonx.ArrayElementFieldValues(inventory, "MiscItems", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -60,7 +60,7 @@ func ApplyCapturaScenes(resources, virtuals, inventory []byte, index int) ([]byt
 		seen[name] = struct{}{}
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "MiscItems", combined, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(inventory, "MiscItems", combined, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

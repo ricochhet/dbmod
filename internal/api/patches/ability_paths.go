@@ -4,13 +4,14 @@ import (
 	"github.com/ricochhet/dbmod/pkg/errorx"
 	"github.com/ricochhet/dbmod/pkg/jsonx"
 	"github.com/ricochhet/dbmod/pkg/logx"
+	"github.com/ricochhet/dbmod/pkg/strx"
 	"github.com/tidwall/gjson"
 )
 
 func ApplyU42AbilityPaths(warframesU41, warframesU42, inventory []byte, index int) ([]byte, error) {
 	var err error
 
-	full, err := jsonx.ResultFromArray(inventory, index)
+	full, err := jsonx.ArrayElement(inventory, index)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}
@@ -48,7 +49,7 @@ func ApplyU42AbilityPaths(warframesU41, warframesU42, inventory []byte, index in
 			}
 		}
 
-		newAbilityName := jsonx.ReplaceMap(currentAbilityName, replacements)
+		newAbilityName := strx.ReplaceMap(currentAbilityName, replacements)
 		if newAbilityName == currentAbilityName {
 			logx.Infof("Skipping ability: %s (already updated)\n", currentAbilityName)
 			continue
@@ -64,7 +65,7 @@ func ApplyU42AbilityPaths(warframesU41, warframesU42, inventory []byte, index in
 
 	logx.Infof("Updated: %d\n", changed)
 
-	return jsonx.SetBytesFromArray(inventory, []byte(newInventory), index)
+	return jsonx.SetArrayElementRaw(inventory, []byte(newInventory), index)
 }
 
 func MigrateAbilityPaths(u41, u42 map[string][]string) map[string]string {

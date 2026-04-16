@@ -15,7 +15,7 @@ type EnemyStats struct {
 }
 
 func (e *EnemyStats) Apply(enemies, stats []byte, index int) ([]byte, error) {
-	enemyStats, err := jsonx.ResultAsArray(stats, "Enemies", index)
+	enemyStats, err := jsonx.ArrayElementFieldValues(stats, "Enemies", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -61,7 +61,7 @@ func (e *EnemyStats) Apply(enemies, stats []byte, index int) ([]byte, error) {
 		seen[uniqueName] = struct{}{}
 	}
 
-	newStats, err := jsonx.SetSliceInRawBytes(stats, "Enemies", combined, index)
+	newStats, err := jsonx.SetArrayElementFieldArray(stats, "Enemies", combined, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

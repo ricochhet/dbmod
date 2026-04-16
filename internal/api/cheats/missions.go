@@ -23,7 +23,7 @@ var missionBlacklist = map[string]struct{}{
 }
 
 func ApplyMissions(regions, inventory []byte, index int) ([]byte, error) {
-	missions, err := jsonx.ResultAsArray(inventory, "Missions", index)
+	missions, err := jsonx.ArrayElementFieldValues(inventory, "Missions", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -67,7 +67,7 @@ func ApplyMissions(regions, inventory []byte, index int) ([]byte, error) {
 		result = append(result, raw)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "Missions", result, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(inventory, "Missions", result, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

@@ -28,16 +28,16 @@ type SearchCriteria struct {
 }
 
 func (m Match) String() string {
-	return fmt.Sprintf("path=%q  key=%q  value=%s", m.Path, m.Key, m.Value.Raw)
+	return fmt.Sprintf("path=%q key=%q value=%s", m.Path, m.Key, m.Value.Raw)
 }
 
 func Search(json string, search SearchCriteria) []Match {
 	root := gjson.Parse(json)
 
-	var out []Match
-	walk(root, "", "", search, &out)
+	var matches []Match
+	searchForMatches(root, "", "", search, &matches)
 
-	return out
+	return matches
 }
 
 func Edit(json, path string, value any) (string, error) {

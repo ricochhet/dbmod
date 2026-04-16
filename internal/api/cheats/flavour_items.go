@@ -28,7 +28,7 @@ var flavourItemsBlacklist = map[string]struct{}{
 }
 
 func ApplyFlavourItems(flavor, inventory []byte, index int) ([]byte, error) {
-	flavourItems, err := jsonx.ResultAsArray(inventory, "FlavourItems", index)
+	flavourItems, err := jsonx.ArrayElementFieldValues(inventory, "FlavourItems", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -76,7 +76,7 @@ func ApplyFlavourItems(flavor, inventory []byte, index int) ([]byte, error) {
 		result = append(result, raw)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "FlavourItems", result, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(inventory, "FlavourItems", result, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

@@ -30,7 +30,7 @@ var (
 )
 
 func ApplyXPInfo(weapons, warframes, sentinels, inventory []byte, index int) ([]byte, error) {
-	xpInfo, err := jsonx.ResultAsArray(inventory, "XPInfo", index)
+	xpInfo, err := jsonx.ArrayElementFieldValues(inventory, "XPInfo", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -93,7 +93,7 @@ func ApplyXPInfo(weapons, warframes, sentinels, inventory []byte, index int) ([]
 		result = append(result, raw)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "XPInfo", result, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(inventory, "XPInfo", result, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

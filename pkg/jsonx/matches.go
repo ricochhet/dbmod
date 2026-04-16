@@ -69,21 +69,26 @@ func objectMatchesFields(node gjson.Result, fields []FieldCriteria, all bool) bo
 	return all
 }
 
-func walk(node gjson.Result, path, key string, search SearchCriteria, out *[]Match) {
+func searchForMatches(
+	node gjson.Result,
+	path, key string,
+	search SearchCriteria,
+	matches *[]Match,
+) {
 	switch {
 	case node.IsObject():
 		if shouldAppendObject(node, key, search) {
-			*out = append(*out, Match{Path: path, Key: key, Value: node})
+			*matches = append(*matches, Match{Path: path, Key: key, Value: node})
 		}
 
 		node.ForEach(func(k, v gjson.Result) bool {
-			walk(v, joinPath(path, k.String()), k.String(), search, out)
+			searchForMatches(v, Join(path, k.String()), k.String(), search, matches)
 			return true
 		})
 
 	case node.IsArray():
 		node.ForEach(func(k, v gjson.Result) bool {
-			walk(v, joinPath(path, k.String()), k.String(), search, out)
+			searchForMatches(v, Join(path, k.String()), k.String(), search, matches)
 			return true
 		})
 
@@ -91,7 +96,7 @@ func walk(node gjson.Result, path, key string, search SearchCriteria, out *[]Mat
 		if len(search.Fields) == 0 &&
 			keyMatches(key, search.Key, search.KeyMode) &&
 			valueMatches(node.String(), search.Value, search.ValueMode) {
-			*out = append(*out, Match{Path: path, Key: key, Value: node})
+			*matches = append(*matches, Match{Path: path, Key: key, Value: node})
 		}
 	}
 }

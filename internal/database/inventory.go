@@ -18,7 +18,7 @@ type InventoryItems struct {
 
 func NewInventoryItems(inventory []byte, index int) (*InventoryItems, error) {
 	fetch := func(field string) ([]gjson.Result, error) {
-		r, err := jsonx.ResultAsArray(inventory, field, index)
+		r, err := jsonx.ArrayElementFieldValues(inventory, field, index)
 		if err != nil {
 			return nil, errorx.New("jsonx.ResultAsArray ("+field+")", err)
 		}

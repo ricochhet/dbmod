@@ -13,7 +13,7 @@ type CodexScans struct {
 }
 
 func (c *CodexScans) Apply(custom, codex, enemies, stats []byte, index int) ([]byte, error) {
-	scans, err := jsonx.ResultAsArray(stats, "Scans", index)
+	scans, err := jsonx.ArrayElementFieldValues(stats, "Scans", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -74,7 +74,7 @@ func (c *CodexScans) Apply(custom, codex, enemies, stats []byte, index int) ([]b
 		}
 	}
 
-	newStats, err := jsonx.SetSliceInRawBytes(stats, "Scans", combined, index)
+	newStats, err := jsonx.SetArrayElementFieldArray(stats, "Scans", combined, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

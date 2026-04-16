@@ -46,7 +46,7 @@ var weaponSkinFilter = struct {
 }
 
 func ApplyWeaponSkins(customs, inventory []byte, index int) ([]byte, error) {
-	skins, err := jsonx.ResultAsArray(inventory, "WeaponSkins", index)
+	skins, err := jsonx.ArrayElementFieldValues(inventory, "WeaponSkins", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -115,7 +115,7 @@ func ApplyWeaponSkins(customs, inventory []byte, index int) ([]byte, error) {
 		result = append(result, raw)
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "WeaponSkins", result, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(inventory, "WeaponSkins", result, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}

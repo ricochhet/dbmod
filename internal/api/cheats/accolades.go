@@ -25,7 +25,7 @@ func (a *Accolades) Apply(inventory []byte, index int) ([]byte, error) {
 		return nil, errorx.New("database.NewAccolades", err)
 	}
 
-	result, err := jsonx.SetFieldInRawBytes(inventory, "Accolades", newAccolades, index)
+	result, err := jsonx.SetArrayElementFieldRaw(inventory, "Accolades", newAccolades, index)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetFieldInRawBytes", err)
 	}
@@ -44,7 +44,7 @@ func (a *Accolades) Apply(inventory []byte, index int) ([]byte, error) {
 	for k, v := range fields {
 		logx.Infof("Added: %s: %v\n", k, v)
 
-		newInventory, err = jsonx.SetFieldInBytes(newInventory, k, v, index)
+		newInventory, err = jsonx.SetArrayElementField(newInventory, k, v, index)
 		if err != nil {
 			return nil, errorx.New(fmt.Sprintf("jsonx.SetFieldInBytes (%s)", k), err)
 		}

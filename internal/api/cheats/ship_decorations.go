@@ -13,7 +13,7 @@ type ShipDecorations struct {
 }
 
 func (s *ShipDecorations) Apply(resources, inventory []byte, index int) ([]byte, error) {
-	decorations, err := jsonx.ResultAsArray(inventory, "ShipDecorations", index)
+	decorations, err := jsonx.ArrayElementFieldValues(inventory, "ShipDecorations", index)
 	if err != nil {
 		return nil, errorx.New("jsonx.ResultAsArray", err)
 	}
@@ -56,7 +56,12 @@ func (s *ShipDecorations) Apply(resources, inventory []byte, index int) ([]byte,
 		seen[uniqueName] = struct{}{}
 	}
 
-	newInventory, err := jsonx.SetSliceInRawBytes(inventory, "ShipDecorations", combined, index)
+	newInventory, err := jsonx.SetArrayElementFieldArray(
+		inventory,
+		"ShipDecorations",
+		combined,
+		index,
+	)
 	if err != nil {
 		return nil, errorx.New("jsonx.SetSliceInRawBytes", err)
 	}
