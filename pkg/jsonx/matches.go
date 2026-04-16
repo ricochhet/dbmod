@@ -72,13 +72,8 @@ func objectMatchesFields(node gjson.Result, fields []FieldCriteria, all bool) bo
 func walk(node gjson.Result, path, key string, search SearchCriteria, out *[]Match) {
 	switch {
 	case node.IsObject():
-		if keyMatches(key, search.Key, search.KeyMode) {
-			match := (len(search.Fields) > 0 && objectMatchesFields(node, search.Fields, search.MatchAll)) ||
-				(len(search.Fields) == 0 && search.Value == "" && search.Key != "")
-
-			if match {
-				*out = append(*out, Match{Path: path, Key: key, Value: node})
-			}
+		if shouldAppendObject(node, key, search) {
+			*out = append(*out, Match{Path: path, Key: key, Value: node})
 		}
 
 		node.ForEach(func(k, v gjson.Result) bool {
@@ -99,4 +94,16 @@ func walk(node gjson.Result, path, key string, search SearchCriteria, out *[]Mat
 			*out = append(*out, Match{Path: path, Key: key, Value: node})
 		}
 	}
+}
+
+func shouldAppendObject(node gjson.Result, key string, search SearchCriteria) bool {
+	if !keyMatches(key, search.Key, search.KeyMode) {
+		return false
+	}
+
+	if len(search.Fields) > 0 {
+		return objectMatchesFields(node, search.Fields, search.MatchAll)
+	}
+
+	return search.Value == "" && search.Key != ""
 }
