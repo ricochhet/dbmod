@@ -1,6 +1,7 @@
 package jsonx
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/tidwall/gjson"
@@ -78,6 +79,7 @@ func searchForMatches(
 	switch {
 	case node.IsObject():
 		if shouldAppendObject(node, key, search) {
+			fmt.Println("Path: " + path)
 			*matches = append(*matches, Match{Path: path, Key: key, Value: node})
 		}
 

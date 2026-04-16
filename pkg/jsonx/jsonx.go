@@ -114,14 +114,22 @@ func Join(path ...string) string {
 	}
 
 	var s strings.Builder
-	s.WriteString(path[0])
+
+	first := path[0]
+	if first != "" {
+		s.WriteString(first)
+	}
 
 	for _, p := range path[1:] {
 		if p == "" {
 			continue
 		}
 
-		s.WriteString("." + p)
+		if s.Len() > 0 {
+			s.WriteString(".")
+		}
+
+		s.WriteString(p)
 	}
 
 	return s.String()
