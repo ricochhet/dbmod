@@ -78,24 +78,28 @@ func (c *Context) commands(ctx context.Context) (bool, error) {
 		rest = c.Flags.Args[1:]
 	}
 
+	mode := StringToMode(c.Flags.Mode)
+
 	switch cmd {
 	case "help":
 		cmds.Usage()
 	case "version":
 		version()
 	case "i", "inventory":
-		switch c.Flags.Mode {
-		case "c", "cheat":
+		switch mode {
+		case ModeCheat:
 			return true, c.InventoryCheats(ctx, rest)
-		case "p", "patch":
+		case ModePatch:
 			return true, c.InventoryPatches(ctx, rest)
+		case ModeNone:
 		default:
 			cmds.Usage()
 		}
 	case "s", "stats":
-		switch c.Flags.Mode {
-		case "c", "cheat":
+		switch mode {
+		case ModeCheat:
 			return true, c.StatsCheat(ctx, rest)
+		case ModePatch, ModeNone:
 		default:
 			cmds.Usage()
 		}

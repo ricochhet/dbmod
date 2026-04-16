@@ -7,6 +7,14 @@ import (
 	"github.com/ricochhet/dbmod/pkg/cmdx"
 )
 
+type Mode int
+
+const (
+	ModeCheat Mode = iota
+	ModePatch
+	ModeNone
+)
+
 var (
 	flags = &config.Config{}
 	cmds  = cmdx.Info{
@@ -53,4 +61,15 @@ func registerFlags(fs *flag.FlagSet, f *config.Config) {
 	fs.IntVar(&f.Index, "i", 0, "index of the document to modify")
 	fs.StringVar(&f.Mode, "m", "cheat", "edit mode: c|cheat or p|patch")
 	fs.BoolVar(&f.Debug, "debug", false, "enable debug output")
+}
+
+func StringToMode(s string) Mode {
+	switch s {
+	case "c", "cheat":
+		return ModeCheat
+	case "p", "patch":
+		return ModePatch
+	default:
+		return ModeNone
+	}
 }
