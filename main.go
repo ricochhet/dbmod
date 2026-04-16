@@ -78,7 +78,7 @@ func (c *Context) commands(ctx context.Context) (bool, error) {
 		rest = c.Flags.Args[1:]
 	}
 
-	mode := StringToMode(c.Flags.Mode)
+	mode := stringToMode(c.Flags.Mode)
 
 	switch cmd {
 	case "help":

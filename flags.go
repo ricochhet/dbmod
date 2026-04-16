@@ -67,7 +67,7 @@ func registerFlags(fs *flag.FlagSet, f *config.Config) {
 	fs.BoolVar(&f.Debug, "debug", false, "enable debug output")
 }
 
-func StringToMode(s string) Mode {
+func stringToMode(s string) Mode {
 	switch s {
 	case "c", "cheat":
 		return ModeCheat
