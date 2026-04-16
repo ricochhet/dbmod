@@ -1,6 +1,7 @@
 <?php
 
-$sourceDir = __DIR__ . DIRECTORY_SEPARATOR . "warframe-public-export-plus";
+$sourceDir =
+	__DIR__ . DIRECTORY_SEPARATOR . "warframe-public-export-plus-senpai";
 $destBase = __DIR__ . DIRECTORY_SEPARATOR . "assets";
 
 $sourceDir = realpath($sourceDir);

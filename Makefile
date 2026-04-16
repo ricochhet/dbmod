@@ -52,6 +52,7 @@ png-to-icos:
 
 .PHONY: build-assets
 build-assets:
+	php download_exports.php
 	php build.php
 	cp -r $(ASSET_PATH) $(BUILD_OUTPUT)/
 
