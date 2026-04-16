@@ -8,7 +8,7 @@ require (
 	github.com/tidwall/gjson v1.18.0
 	github.com/tidwall/jsonc v0.3.3
 	github.com/tidwall/sjson v1.2.5
-	go.mongodb.org/mongo-driver/v2 v2.5.0
+	go.mongodb.org/mongo-driver/v2 v2.5.1
 )
 
 require (
