@@ -42,6 +42,7 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
 	flags.Args = flag.Args()
 
 	appCtx := Context{

@@ -11,3 +11,4 @@ target
 assets/*
 !assets/.gitkeep
 !assets/allScans.json
+!assets/ExportWarframes_41.1.0.json
