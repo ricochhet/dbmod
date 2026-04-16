@@ -22,6 +22,8 @@ func readExports(path string) *config.Exports {
 		Virtuals:     maybeRead(join("ExportVirtuals.json")),
 		Weapons:      maybeRead(join("ExportWeapons.json")),
 		Warframes:    maybeRead(join("ExportWarframes.json")),
+		WarframesU41: maybeRead(join("ExportWarframes_41.1.0.json")),
+		WarframesU42: maybeRead(join("ExportWarframes_42.0.6.json")),
 		Sentinels:    maybeRead(join("ExportSentinels.json")),
 		AllScans:     maybeRead(join("allScans.json")),
 	}

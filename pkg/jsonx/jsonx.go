@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/ricochhet/dbmod/pkg/errorx"
@@ -77,6 +78,15 @@ func Result(data []byte, path string, index int) (gjson.Result, error) {
 	return target.Get(path), nil
 }
 
+func ResultFromArray(data []byte, index int) (gjson.Result, error) {
+	array := gjson.ParseBytes(data).Array()
+	if index < 0 || index >= len(array) {
+		return gjson.Result{}, errorx.WithFramef("invalid index: %d", index)
+	}
+
+	return array[index], nil
+}
+
 // SetSliceInRawBytes sets a slice to the input json bytes at the specified index.
 func SetSliceInRawBytes(input []byte, path string, elems []string, index int) ([]byte, error) {
 	return sjson.SetRawBytes(
@@ -94,4 +104,49 @@ func SetFieldInRawBytes(input []byte, path, elem string, index int) ([]byte, err
 // SetFieldInRawBytes sets a field to the input json string at the specified index.
 func SetFieldInBytes[T any](input, path string, elem T, index int) (string, error) {
 	return sjson.Set(input, fmt.Sprintf("%d.%s", index, path), elem)
+}
+
+func Replace(value string, rules []struct{ From, To string }) string {
+	for _, r := range rules {
+		if strings.Contains(value, r.From) {
+			return strings.ReplaceAll(value, r.From, r.To)
+		}
+	}
+
+	return value
+}
+
+func ReplaceMap(value string, rules map[string]string) string {
+	for from, to := range rules {
+		if strings.Contains(value, from) {
+			return strings.ReplaceAll(value, from, to)
+		}
+	}
+
+	return value
+}
+
+func ReplaceMapDeterministic(value string, rules map[string]string) string {
+	keys := make([]string, 0, len(rules))
+	for k := range rules {
+		keys = append(keys, k)
+	}
+
+	sort.Strings(keys)
+
+	for _, from := range keys {
+		if strings.Contains(value, from) {
+			return strings.ReplaceAll(value, from, rules[from])
+		}
+	}
+
+	return value
+}
+
+func joinPath(parent, child string) string {
+	if parent == "" {
+		return child
+	}
+
+	return parent + "." + child
 }

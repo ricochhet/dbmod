@@ -9,6 +9,7 @@ func (c *Context) inventoryPatches() Queries {
 	return Queries{
 		{Name: "xpInfo", Query: c.xpInfoPatch},
 		{Name: "shipDecorations", Query: c.shipDecorationsPatch},
+		{Name: "abilityPaths", Query: c.abilityPathsPatch},
 	}
 }
 
@@ -43,6 +44,30 @@ func (c *Context) shipDecorationsPatch(db *Database) (*Database, error) {
 	}
 
 	inv, err := patches.ApplyShipDecorations(resources, db.Inventory, c.Flags.Index)
+	if err != nil {
+		return nil, errorx.WithFrame(err)
+	}
+
+	return &Database{Inventory: inv, Stats: db.Stats}, nil
+}
+
+func (c *Context) abilityPathsPatch(db *Database) (*Database, error) {
+	warframesU41 := c.Exports.WarframesU41
+	if len(warframesU41) == 0 {
+		return nil, errorx.WithFramef("WarframesU41 data is %d bytes", len(warframesU41))
+	}
+
+	warframesU42 := c.Exports.WarframesU42
+	if len(warframesU42) == 0 {
+		return nil, errorx.WithFramef("WarframesU42 data is %d bytes", len(warframesU42))
+	}
+
+	inv, err := patches.ApplyU42AbilityPaths(
+		warframesU41,
+		warframesU42,
+		db.Inventory,
+		c.Flags.Index,
+	)
 	if err != nil {
 		return nil, errorx.WithFrame(err)
 	}

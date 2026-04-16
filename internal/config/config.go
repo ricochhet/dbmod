@@ -24,6 +24,8 @@ type Exports struct {
 	Regions      []byte
 	Weapons      []byte
 	Warframes    []byte
+	WarframesU41 []byte
+	WarframesU42 []byte
 	Sentinels    []byte
 	AllScans     []byte
 }
